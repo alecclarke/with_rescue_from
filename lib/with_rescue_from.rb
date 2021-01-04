@@ -8,17 +8,21 @@ module WithRescueFrom
 
   class_methods do
     def with_rescue_from(*method_names)
-      method_names.each do |method_name|
-        WithRescueFrom.class_eval do
-          define_method(method_name) do |*args, &block|
-            super(*args, &block)
-          rescue => e
-            rescue_with_handler(e) || raise
+      proxy = Module.new do |mod|
+        mod.class_eval do
+          method_names.each do |method_name|
+            define_method(method_name) do |*args, &block|
+              super(*args, &block)
+            rescue => e
+              rescue_with_handler(e) || raise
+            end
+  
+            ruby2_keywords method_name
           end
-
-          ruby2_keywords method_name
         end
       end
+
+      self.prepend proxy
     end
   end
 end

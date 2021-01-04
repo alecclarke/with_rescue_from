@@ -26,8 +26,8 @@ Or install it yourself as:
 require 'with_rescue_from'
 
 class Foo
-  prepend WithRescueFrom
   include ActiveSupport::Rescuable
+  include WithRescueFrom
 
   with_rescue_from :bar
 
@@ -40,7 +40,7 @@ class Foo
   end
 
   def baz
-    ... # StandardError exceptions raised here will won't be handled in rescue_from
+    ... # StandardError exceptions raised here won't be handled in rescue_from
   end
 end
 ```

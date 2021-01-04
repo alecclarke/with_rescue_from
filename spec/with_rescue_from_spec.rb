@@ -6,8 +6,8 @@ RSpec.describe WithRescueFrom do
       class MethodWithKwargsError < StandardError; end
       class MethodWithoutArgsError < StandardError; end
 
-      prepend WithRescueFrom
       include ActiveSupport::Rescuable
+      include WithRescueFrom
 
       with_rescue_from :method_with_args, :method_without_args, :method_with_kwargs, :method_with_a_block, :method_with_a_defined_rescue
 
